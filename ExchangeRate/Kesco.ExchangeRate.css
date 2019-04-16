@@ -1,0 +1,41 @@
+﻿.marginT {
+    margin-top: 15px;
+}
+
+div.predicate_block {
+    min-height: 20px;
+    display: block;
+    margin-top: 5px;
+}
+
+div.label {
+    width: 100px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+div.label_wide {
+    width: 500px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+div.aligned_control {
+    vertical-align: middle;
+    margin-right: 0px;
+}
+
+.marginD {
+    margin-left: 3px;
+}
+
+/*Вставка вертикального отступа*/
+.spacer {
+    display: block;
+    height: 5px;
+}
+
+.GridGrayed {
+    opacity: 0.5;
+    pointer-events: none;
+}
