@@ -1,41 +1,49 @@
-﻿.marginT {
-    margin-top: 15px;
-}
+﻿.marginT { margin-top: 15px; }
 
 div.predicate_block {
-    min-height: 20px;
     display: block;
     margin-top: 5px;
+    min-height: 20px;
 }
 
 div.label {
-    width: 100px;
     display: inline-block;
     vertical-align: middle;
+    width: 100px;
 }
 
 div.label_wide {
-    width: 500px;
     display: inline-block;
     vertical-align: middle;
+    width: 500px;
 }
 
 div.aligned_control {
-    vertical-align: middle;
     margin-right: 0px;
+    vertical-align: middle;
 }
 
-.marginD {
-    margin-left: 3px;
-}
+.marginD { margin-left: 3px; }
 
 /*Вставка вертикального отступа*/
+
 .spacer {
     display: block;
     height: 5px;
 }
 
-.GridGrayed {
+.ControlGrayed {
     opacity: 0.5;
     pointer-events: none;
+}
+
+#tabs {
+    background-color: rgb(245, 245, 245);
+    border-width: 0px;
+}
+
+.v4NtfEmpty {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    text-align: center;
 }

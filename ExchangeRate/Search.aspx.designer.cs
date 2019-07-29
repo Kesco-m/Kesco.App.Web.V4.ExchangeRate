@@ -40,13 +40,13 @@ namespace Kesco.App.Web.V4.ExchangeRate {
         protected global::Kesco.Lib.Web.Controls.V4.Button btnFilterRates;
         
         /// <summary>
-        /// btnAddRate элемент управления.
+        /// chkShowRatesOnHomePage элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::Kesco.Lib.Web.Controls.V4.Button btnAddRate;
+        protected global::Kesco.Lib.Web.Controls.V4.CheckBox chkShowRatesOnHomePage;
         
         /// <summary>
         /// gridRate элемент управления.
@@ -128,6 +128,15 @@ namespace Kesco.App.Web.V4.ExchangeRate {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::Kesco.Lib.Web.Controls.V4.Button btnInverseCurrencies;
+        
+        /// <summary>
+        /// chkShowCrossRatesOnHomePage элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Kesco.Lib.Web.Controls.V4.CheckBox chkShowCrossRatesOnHomePage;
         
         /// <summary>
         /// gridRateCross элемент управления.

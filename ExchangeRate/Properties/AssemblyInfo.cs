@@ -1,7 +1,6 @@
-﻿using Kesco.Lib.Log;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using Kesco.Lib.Log;
 
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
@@ -34,4 +33,3 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номер построения и номер редакции по умолчанию, 
 // используя "*", как показано ниже:
 [assembly: AssemblyVersion("4.0.*")]
-

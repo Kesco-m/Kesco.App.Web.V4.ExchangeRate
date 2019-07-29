@@ -62,7 +62,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="logo_exrate.gif" />
     <Content Include="hlp\default.htm" />
     <Content Include="Global.asax" />
     <Content Include="hlp\help.htm" />
@@ -134,6 +133,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="hlp\Contents\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

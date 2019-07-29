@@ -1,60 +1,100 @@
-﻿var isFirstActivateTabAvgRates = true;
-var isFirstActivateTabCrossRates = true;
+﻿var isFirstActivateTabRates = false;
+var isFirstActivateTabAvgRates = false;
+var isFirstActivateTabCrossRates = false;
 var checkBoxCssClass = "";
 var checkBoxAvgCssClass = "";
+var activeButton = null;
+var allowEdit = false;
 
-$(document).ready(function () {
-    $(function () {
+$(document).ready(function() {
+    $(function() {
+        $("#tabs").tabs({ heightStyle: "content" });
+
         /* Установить способность изменять расположение inline элементов при отображении страницы в диалоге IE */
         v4_setResizableInDialog();
-        window.v4_insert = insertHandler;
-        window.v4_save = saveHandler;
         $(".indeterminate").each(function(index, item) {
             item.indeterminate = true;
         });
+
+        $("#gridRate").css("overflow", "");
+        $("#gridRateCross").css("overflow", "");
+
+        setTabsMinSize();
+        setGridMaxHeight();
     });
 
-    $("#tabs").tabs({
-        
-        activate: function (event, ui) {
-            window.v4_insert = function () { };
-            window.v4_save = function () { };
+    $(window).resize(function() {
+        setTabsMinSize();
+        setGridMaxHeight();
+    });
 
-            var tabId = ui.newPanel[0].id;
-            switch (tabId) {
-                case "tabs-1":
-                    window.v4_insert = insertHandler;
-                    window.v4_save = saveHandler;
-                    break;
-                case "tabs-2":
-                    if (isFirstActivateTabAvgRates) {
-                        btnFilterAvgRates_Click();
-                        isFirstActivateTabAvgRates = false;
-                    }
-                    break;
-                case "tabs-3":
-                    if (isFirstActivateTabCrossRates) {
-                        btnFilterCrossRates_Click();
-                        isFirstActivateTabCrossRates = false;
-                    }
-                    break;
+
+    //$('frameReportRateCross').load(function () {
+    //    $('frameReportRateCross').contents().find("head")
+    //        .append($("<style type='text/css'>  .my-class{display:none;}  </style>"));
+    //});
+
+    $(".nav").button().click(function() {
+        if (activeButton)
+            activeButton.button("enable").removeClass("ui-state-active ui-state-hover");
+        activeButton = $(this);
+        activeButton.button("disable").addClass("ui-state-active").removeClass("ui-state-disabled");
+
+        switch (activeButton[0].id) {
+        case "btnTabRate":
+            window.v4_insert = insertHandler;
+            window.v4_save = saveHandler;
+            if (!isFirstActivateTabRates) {
+                btnFilterRates_Click();
+                isFirstActivateTabRates = true;
             }
+            break;
+        case "btnTabRateAvg":
+            window.v4_insert = function() {};
+            window.v4_save = function() {};
+            if (!isFirstActivateTabAvgRates) {
+                btnFilterAvgRates_Click();
+                isFirstActivateTabAvgRates = true;
+            }
+            break;
+        case "btnTabRateCross":
+            window.v4_insert = function() {};
+            window.v4_save = function() {};
+            if (!isFirstActivateTabCrossRates) {
+                btnFilterCrossRates_Click();
+                isFirstActivateTabCrossRates = true;
+            }
+            break;
         }
     });
 
+    function setTabsMinSize() {
+        $("#tabs").css("min-height", $(window).height() - 35);
+    }
+
+    function setGridMaxHeight() {
+        var maxHeight = $(window).height() - 126;
+        $("#gridRate").css("max-height", maxHeight);
+        $("#gridRateCross").css("max-height", maxHeight);
+    }
+
     function insertHandler() {
-        if (rateEdit_dialogShow.form == null) {
+        if (allowEdit && rateEdit_dialogShow.form == null) {
             $("#btnRateAdd").focus();
             cmd("cmd", "RateAdd");
         }
     }
 
     function saveHandler() {
-        if (rateEdit_dialogShow.form != null) {
+        if (allowEdit && rateEdit_dialogShow.form != null) {
             $("#btnRateEditApply").focus();
             cmd("cmd", "SetRate");
         }
     }
+});
+
+$(window).load(function() {
+    $("#btnTabRate").focus();
 });
 
 rateEdit_dialogShow.form = null;
@@ -142,7 +182,6 @@ function rate_RecordsEdit(titleForm, id) {
 // Фукнкция получения значений фильтра по валютам
 function rate_getCurrencyValuesFilter(className) {
     var selector = "." + className + ":checkbox:checked";
-
     var values = "";
     $(selector).each(function(index, item) {
         values += (values.length > 0 ? "," : "") + parseInt($(item).attr("data-id"));
@@ -153,11 +192,11 @@ function rate_getCurrencyValuesFilter(className) {
 
 // Функция удаления класса стилей по всему документу
 function rate_removeCssClass(className) {
-    var elems = document.querySelectorAll("." + className);
-    [].forEach.call(elems,
-        function(el) {
-            el.classList.remove(className);
-        });
+    var activeTab = $("#tabs .ui-tabs-panel:visible");
+    if (!activeTab) return;
+    activeTab.find("." + className).each(function() {
+        $(this).removeClass(className);
+    });
 }
 
 function btnInverseCurrencies_Click() {
@@ -169,20 +208,23 @@ function btnInverseCurrencies_Click() {
 
 function btnFilterRates_Click() {
     var ids = rate_getCurrencyValuesFilter(checkBoxCssClass);
-    Wait.render(true);
-    cmdasync("cmd", "FilterRates", "Ids", ids); 
-    rate_removeCssClass("GridGrayed");
+    cmdasync("cmd", "FilterRates", "Ids", ids);
 }
 
 function btnFilterAvgRates_Click() {
     var ids = rate_getCurrencyValuesFilter(checkBoxAvgCssClass);
-    Wait.render(true);
-    cmdasync("cmd", "FilterRatesAvg", "Ids", ids); 
-    rate_removeCssClass("GridGrayed");
+    cmdasync("cmd", "FilterRatesAvg", "Ids", ids);
 }
 
 function btnFilterCrossRates_Click() {
-    Wait.render(true);
     cmdasync("cmd", "FilterRatesCross");
-    rate_removeCssClass("GridGrayed"); 
+}
+
+function setMessageLabel(ctrlId, visible, text) {
+    var label = $("#" + ctrlId);
+    if (visible) {
+        label.text(text);
+        label.show();
+    } else
+        label.hide();
 }
